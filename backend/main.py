@@ -29,6 +29,9 @@ class MusicaBase(BaseModel):
     duracao: str
     gostei: bool
 
+class CuritrMusica(BaseModel):
+    gostei: Optional[bool] = None;
+
 
 # Função para verificar se a musica ja existe
 async def musica_existente(nome: str, cantor: str, conn: asyncpg.Connection):
@@ -75,9 +78,68 @@ async def listar_musica_gostei():
     conn = await get_database()
     try:
         # Buscar todas as musicas no banco de dados
-        query = "SELECT * FROM musica WHERE gostei like 'true'"
+        query = "SELECT * FROM musica WHERE gostei = TRUE"
         rows = await conn.fetch(query)
         musica = [dict(row) for row in rows]
         return musica
+    finally:
+        await conn.close()
+
+# 4. Adicionar a musica como "gostei"
+@app.patch("/api/v1/musica/{musica_id}")
+async def acurtir_musica(musica_id: int, atualizar_musica: CuritrMusica):
+    conn = await get_database()
+    try:
+        # Verificar se o livro existe
+        query = "SELECT * FROM musica WHERE id = $1"
+        musicas = await conn.fetchrow(query, musica_id)
+        if musicas is None:
+            raise HTTPException(status_code=404, detail="Musica não encontrada!")
+
+        # Atualizar apenas os campos fornecidos
+        update_query = """
+            UPDATE musica
+            SET titulgostei  = COALESCE($1, gostei),
+            WHERE id = $2
+        """
+        await conn.execute(
+            update_query,
+            atualizar_musica.gostei,
+            musica_id
+        )
+        return {"message": "Musica atualizada com sucesso!"}
+    finally:
+        await conn.close()
+
+# 6. Remover um livro pelo ID
+@app.delete("/api/v1/musica/{musica_id}")
+async def excluir_musica(musica_id: int):
+    conn = await get_database()
+    try:
+        # Verificar se a musica existe
+        query = "SELECT * FROM musica WHERE id = $1"
+        musica = await conn.fetchrow(query, musica_id)
+        if musica is None:
+            raise HTTPException(status_code=404, detail="Musica não encontrada.")
+
+        # Remover o musica do banco de dados
+        delete_query = "DELETE FROM musica WHERE id = $1"
+        await conn.execute(delete_query, musica_id)
+        return {"message": "Musica excluida com sucesso!"}
+    finally:
+        await conn.close()
+
+# 7. Resetar banco de dados de livros
+@app.delete("/api/v1/musica/")
+async def resetar_livros():
+    init_sql = os.getenv("INIT_SQL", "db/init.sql")
+    conn = await get_database()
+    try:
+        # Read SQL file contents
+        with open(init_sql, 'r') as file:
+            sql_commands = file.read()
+        # Execute SQL commands
+        await conn.execute(sql_commands)
+        return {"message": "Banco de dados limpo com sucesso!"}
     finally:
         await conn.close()
