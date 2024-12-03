@@ -1,0 +1,125 @@
+/* Define a paleta de cores */
+:root {
+    --cor-principal: #4CAF50;
+    --cor-secundaria: #333;
+    --fundo-claro: #f4f4f4;
+    --fundo-escuro: #212121;
+    --cor-escura-texto: #fff;
+    --cor-clara-texto: #bbb;
+    --borda-clara: #ccc;
+}
+
+/* Resetando o estilo padrão */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo da página */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--fundo-claro);
+    color: var(--cor-secundaria);
+    line-height: 1.6;
+}
+
+/* Navegação */
+nav {
+    background-color: var(--cor-principal);
+    padding: 5px 20px; /* Diminuindo o padding para reduzir a altura */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav .navbar-nav .nav-link {
+    color: var(--cor-escura-texto) !important;
+    font-size: 1rem; /* Diminuindo o tamanho da fonte */
+    font-weight: bold;
+    margin-right: 15px;
+    padding: 8px 15px; /* Ajustando o padding para diminuir a altura dos itens */
+}
+
+nav .navbar-nav .nav-link:hover {
+    color: var(--fundo-claro) !important;
+    text-decoration: underline;
+}
+
+
+/* Formulário */
+.container-fluid {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: var(--fundo-claro);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos */
+h2 {
+    font-size: 2rem;
+    color: var(--cor-principal);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Campos de entrada */
+.form-label {
+    font-weight: bold;
+    color: var(--cor-secundaria);
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--borda-clara);
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efeito de foco nos campos de entrada */
+input[type="text"]:focus {
+    border-color: var(--cor-principal);
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    outline: none;
+}
+
+/* Botão de submit */
+.btn-primary {
+    background-color: var(--cor-principal);
+    color: var(--cor-escura-texto);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para o rodapé */
+footer {
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 40px;
+    color: var(--cor-secundaria);
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    .container-fluid {
+        padding: 20px;
+    }
+
+    .form-label, input[type="text"], .btn-primary {
+        font-size: 1rem;
+    }
+}
