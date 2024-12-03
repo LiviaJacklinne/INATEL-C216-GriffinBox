@@ -87,7 +87,7 @@ async def listar_musica_gostei():
 
 # 4. Adicionar a musica como "gostei"
 @app.patch("/api/v1/musica/{musica_id}")
-async def acurtir_musica(musica_id: int, atualizar_musica: CuritrMusica):
+async def curtir_musica(musica_id: int, atualizar_musica: CuritrMusica):
     conn = await get_database()
     try:
         # Verificar se o livro existe
