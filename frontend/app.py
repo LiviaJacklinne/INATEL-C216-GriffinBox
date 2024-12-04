@@ -13,9 +13,9 @@ def home():
     return render_template('home.html')
 
 # Rota para exibir o formulário de cadastro
-@app.route('/add', methods=['GET'])
+@app.route('/cadastro', methods=['GET'])
 def inserir_livro_form():
-    return render_template('add.html')
+    return render_template('cadastro.html')
 
 # Rota para enviar os dados do formulário de cadastro para a API
 @app.route('/adicionar', methods=['POST'])
@@ -34,44 +34,44 @@ def adicionar_musica():
         'gostei' : gostei
     }
 
-    response = requests.post(f'{API_BASE_URL}/api/v1/musica/', json=payload)
+    response = requests.post(f'{API_BASE_URL}/api/v1/musicas/', json=payload)
     
     if response.status_code == 201:
         return redirect(url_for('listar_musica'))
     else:
         return "Erro ao adicionar musica", 500
 
-#Rota para resetar o database
-@app.route('/reset-database', methods=['GET'])
-def resetar_database():
-    response = requests.delete(f"{API_BASE_URL}/api/v1/musica/")
-    
-    if response.status_code == 200  :
-        return render_template('confirmacao.html')
-    else:
-        return "Erro ao resetar o database", 500
-
-# Rota para excluir uma musica
-@app.route('/excluir/<int:musica_id>', methods=['POST'])
-def excluir_musica(musica_id):
-    response = requests.delete(f"{API_BASE_URL}/api/v1/musica/{musica_id}")
-    
-    if response.status_code == 200  :
-        return redirect(url_for('listar_musica'))
-    else:
-        return "Erro ao excluir musica", 500
-    
 # Rota para listar todas as musicas
 @app.route('/playlist', methods=['GET'])
 def listar_musicas():
-    response = requests.get(f'{API_BASE_URL}/api/v1/musica/')
+    response = requests.get(f'{API_BASE_URL}/api/v1/musicas/')
     try:
         musicas = response.json()
     except:
         musicas = []
     return render_template('playlist.html', musicas=musicas)
 
-if __name__ == '__main__':
-    app.run(debug=True, port=3000, host='0.0.0.0')
+# Rota para excluir uma musica
+@app.route('/excluir/<int:musica_id>', methods=['POST'])
+def excluir_musica(musica_id):
+    response = requests.delete(f"{API_BASE_URL}/api/v1/musicas/{musica_id}")
+    
+    if response.status_code == 200  :
+        return redirect(url_for('listar_musica'))
+    else:
+        return "Erro ao excluir musica", 500
+
+
+#Rota para resetar o database
+@app.route('/reset-database', methods=['GET'])
+def resetar_database():
+    response = requests.delete(f"{API_BASE_URL}/api/v1/musicas/")
+    
+    if response.status_code == 200  :
+        return render_template('resetdb.html')
+    else:
+        return "Erro ao resetar o database", 500
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=3000, host='0.0.0.0')

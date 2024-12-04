@@ -32,24 +32,33 @@ class MusicaBase(BaseModel):
 class CuritrMusica(BaseModel):
     gostei: Optional[bool] = None;
 
+# Middleware para logging
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    print(f"Path: {request.url.path}, Method: {request.method}, Process Time: {process_time:.4f}s")
+    return response
+
 
 # Função para verificar se a musica ja existe
 async def musica_existente(nome: str, cantor: str, conn: asyncpg.Connection):
     try:
-        query = "SELECT * FROM musica WHERE LOWER(nome) = LOWER($1) AND LOWER(cantor) = LOWER($2)"
+        query = "SELECT * FROM musicas WHERE LOWER(nome) = LOWER($1) AND LOWER(cantor) = LOWER($2)"
         result = await conn.fetchval(query, nome, cantor)
         return result is not None
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Falha ao verificar se a musica existe: {str(e)}")
 
 # 1. Adicionar musica
-@app.post("/api/v1/musica/", status_code=201)
-async def add_musica(msc: MusicaBase):
+@app.post("/api/v1/musicas/", status_code=201)
+async def adicionar_musica(msc: MusicaBase):
     conn = await get_database()
     if await musica_existente(msc.nome, msc.autor, conn):
         raise HTTPException(status_code=400, detail="Musica já existe.")
     try:
-        query = "INSERT INTO musica (nome, autor, album, duracao, gostei) VALUES ($1, $2, $3, $4, $5)"
+        query = "INSERT INTO musicas (nome, autor, album, duracao, gostei) VALUES ($1, $2, $3, $4, $5)"
         async with conn.transaction():
             result = await conn.execute(query, msc.nome, msc.cantor, msc.album, msc.duracao, msc.gostei)
             return {"message": "Musica adicionada com sucesso!"}
@@ -59,46 +68,46 @@ async def add_musica(msc: MusicaBase):
         await conn.close()
 
 # 2. Listar todas as musicas
-@app.get("/api/v1/musica/", response_model=List[Musica])
+@app.get("/api/v1/musicas/", response_model=List[Musica])
 async def listar_musica():
     conn = await get_database()
     try:
         # Buscar todas as musicas no banco de dados
-        query = "SELECT * FROM musica"
+        query = "SELECT * FROM musicas"
         rows = await conn.fetch(query)
         musica = [dict(row) for row in rows]
         return musica
     finally:
         await conn.close()
 
-
-# 3. Listar as musicas marcadas como gostei
-@app.get("/api/v1/musica/gostei/", response_model=List[Musica])
-async def listar_musica_gostei():
+# Buscar musica por ID
+@app.get("/api/v1/musicas/{musica_id}")
+async def listar_musica_por_id(musica_id: int):
     conn = await get_database()
     try:
-        # Buscar todas as musicas no banco de dados
-        query = "SELECT * FROM musica WHERE gostei = TRUE"
-        rows = await conn.fetch(query)
-        musica = [dict(row) for row in rows]
-        return musica
+        # Buscar o musica por ID
+        query = "SELECT * FROM musicas WHERE id = $1"
+        musica = await conn.fetchrow(query, musica_id)
+        if musica is None:
+            raise HTTPException(status_code=404, detail="Musica não encontrada.")
+        return dict(musica)
     finally:
         await conn.close()
 
 # 4. Adicionar a musica como "gostei"
-@app.patch("/api/v1/musica/{musica_id}")
+@app.patch("/api/v1/musicas/{musica_id}")
 async def curtir_musica(musica_id: int, atualizar_musica: CuritrMusica):
     conn = await get_database()
     try:
         # Verificar se o livro existe
-        query = "SELECT * FROM musica WHERE id = $1"
+        query = "SELECT * FROM musicas WHERE id = $1"
         musicas = await conn.fetchrow(query, musica_id)
         if musicas is None:
             raise HTTPException(status_code=404, detail="Musica não encontrada!")
 
         # Atualizar apenas os campos fornecidos
         update_query = """
-            UPDATE musica
+            UPDATE musicas
             SET titulgostei  = COALESCE($1, gostei),
             WHERE id = $2
         """
@@ -111,26 +120,26 @@ async def curtir_musica(musica_id: int, atualizar_musica: CuritrMusica):
     finally:
         await conn.close()
 
-# 6. Remover um livro pelo ID
-@app.delete("/api/v1/musica/{musica_id}")
+# 6. Remover uma musica pelo ID
+@app.delete("/api/v1/musicas/{musica_id}")
 async def excluir_musica(musica_id: int):
     conn = await get_database()
     try:
         # Verificar se a musica existe
-        query = "SELECT * FROM musica WHERE id = $1"
+        query = "SELECT * FROM musicas WHERE id = $1"
         musica = await conn.fetchrow(query, musica_id)
         if musica is None:
             raise HTTPException(status_code=404, detail="Musica não encontrada.")
 
         # Remover o musica do banco de dados
-        delete_query = "DELETE FROM musica WHERE id = $1"
+        delete_query = "DELETE FROM musicas WHERE id = $1"
         await conn.execute(delete_query, musica_id)
         return {"message": "Musica excluida com sucesso!"}
     finally:
         await conn.close()
 
 # 7. Resetar banco de dados de livros
-@app.delete("/api/v1/musica/")
+@app.delete("/api/v1/musicas/")
 async def resetar_livros():
     init_sql = os.getenv("INIT_SQL", "db/init.sql")
     conn = await get_database()
@@ -141,5 +150,18 @@ async def resetar_livros():
         # Execute SQL commands
         await conn.execute(sql_commands)
         return {"message": "Banco de dados limpo com sucesso!"}
+    finally:
+        await conn.close()
+
+# 3. Listar as musicas marcadas como gostei
+@app.get("/api/v1/gostei/", response_model=List[Musica])
+async def listar_musica_gostei():
+    conn = await get_database()
+    try:
+        # Buscar todas as musicas no banco de dados
+        query = "SELECT * FROM musicas WHERE gostei = TRUE"
+        rows = await conn.fetch(query)
+        musica = [dict(row) for row in rows]
+        return musica
     finally:
         await conn.close()
