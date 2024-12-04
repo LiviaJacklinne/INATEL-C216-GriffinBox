@@ -4,36 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Música</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="css/add.style" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="/">Home</a>
-            <a class="nav-link" href="/cadastro">Adicionar Música</a>
-            <a class="nav-link" href="/playlist">Ver Músicas</a>
-            <a class="nav-link" href="#">Musicas Marcadas Como Gostei</a>
-            </div>
-        </div>
+    <nav class="nav">
+        <div class="navbar">
+            <li class="navbar-li"><a class="nav-link" href="/"><span>GriffinBox</span></a></li>
+            <li class="navbar-li"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+            <li class="navbar-li"><a class="nav-link" href="/cadastro">Adicionar Música</a></li>
+            <li class="navbar-li"><a class="nav-link" href="/playlist">Ver Músicas</a></li>
+            <li class="navbar-li"><a class="nav-link" href="#">Musicas Marcadas Como Gostei</a></li>
         </div>
     </nav>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <div class="container-fluid">
-        <form action="/adicionar" method="POST">
-            <label for="nome" class="form-label">Nome da Música:</label><br>
-            <input type="text" id="nome" name="nome" class="form-control" placeholder="Hello"><br>
-            <label for="cantor" class="form-label">Nome do Cantor(a):</label><br>
-            <input type="text" id="cantor" name="cantor" class="form-control" placeholder="Adele"><br>
-            <label for="album" class="form-label">Album:</label><br>
-            <input type="text" id="album" name="album" class="form-control" placeholder="25"><br><br>
-            <label for="duracao" class="form-label">Duração:</label><br>
-            <input type="text" id="duracao" name="duracao" class="form-control" placeholder="4:55"><br><br>
-            <input type="submit" value="Adicionar" class="btn btn-primary">
-        </form>
+    <div class="container">
+        <div class="container-form">
+            <form action="/adicionar" method="POST"></form>
+                <li class="form-li">
+                    <label for="nome" class="form-label">Nome da Música:</label><br>
+                    <input type="text" id="nome" name="nome" class="form-control" placeholder="Hello"><br>
+                </li>
+                <li class="form-li">
+                    <label for="cantor" class="form-label">Nome do Cantor(a):</label><br>
+                    <input type="text" id="cantor" name="cantor" class="form-control" placeholder="Adele"><br>
+                </li>
+                <li class="form-li">
+                    <label for="album" class="form-label">Album:</label><br>
+                    <input type="text" id="album" name="album" class="form-control" placeholder="25"><br><br>
+                </li>
+                    
+                <li class="form-li">
+                    <label for="duracao" class="form-label">Duração:</label><br>
+                    <input type="text" id="duracao" name="duracao" class="form-control" placeholder="4:55"><br><br>
+                </li>
+                <li class="form-li"><input type="submit" value="Adicionar" class="btn btn-primary"></li>
+            </form>
+        </div>
     </div>
-
 </body>
 </html>

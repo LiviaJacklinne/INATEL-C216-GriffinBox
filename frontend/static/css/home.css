@@ -37,7 +37,7 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Hover no link */
+/* Hover no link (geralmente para links que não são ativos) */
 .nav-link:hover {
     background-color: #fff;
     color: #4CAF50;
@@ -55,7 +55,7 @@ body {
 .container {
     max-width: 500px;
     margin: 2rem auto;
-    padding: 1rem;
+    padding: 1.5rem;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -65,25 +65,24 @@ body {
 .container-form {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem; /* Diminuímos o espaçamento entre os campos */
+    gap: 1rem;
 }
 
 .form-li {
-    margin-bottom: 0.5rem; /* Reduzimos a margem entre os campos */
-    list-style-type: none; /* Remove as bolinhas da lista */
+    margin-bottom: 0.8rem;
 }
 
 .form-label {
-    font-size: 0.9rem; /* Diminui o tamanho da fonte para compactar */
+    font-size: 1rem;
     font-weight: bold;
     color: #555;
-    margin-bottom: 0.3rem; /* Diminui o espaçamento entre o label e o campo */
+    margin-bottom: 0.5rem;
 }
 
 .form-control {
     width: 100%;
-    padding: 0.5rem; /* Diminui o padding para tornar os campos mais compactos */
-    font-size: 0.9rem; /* Diminui o tamanho da fonte para compactar */
+    padding: 0.6rem;
+    font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;

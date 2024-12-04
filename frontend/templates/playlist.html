@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/playlist.css') }}">
 </head>
 <body>
-    <h1>AAAAAAAAAAAAAAAAAAAAA</h1>
-    <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-                <a class="nav-link" href="/cadastro">Adicionar Música</a>
-                <a class="nav-link" href="/playlist">Ver Músicas</a>
-                <a class="nav-link" href="#">Musicas Marcadas Como Gostei</a>
+                <li class="navbar-li"><a class="nav-link" href="/"><span>GriffinBox</span></a></li>
+            <li class="navbar-li"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+            <li class="navbar-li"><a class="nav-link" href="/cadastro">Adicionar Música</a></li>
+            <li class="navbar-li"><a class="nav-link" href="/playlist">Ver Músicas</a></li>
+            <li class="navbar-li"><a class="nav-link" href="#">Musicas Marcadas Como Gostei</a></li>
             </div>
         </div>
         </div>
@@ -29,9 +29,9 @@
                 <th>Nome</th>
                 <th>Cantor</th>
                 <th>Album</th>
-                <th>Duração</th> -->
-                <!-- <th>Gostei</th> -->
-            <!-- </tr>
+                <th>Duração</th> 
+                <th>Gostei</th>
+            </tr>
         </thead>
         <tbody>
             {% for musica in musicas %}
@@ -43,11 +43,11 @@
                 <td class="d-flex">
                     <form action="/excluir/{{ musica.id }}" method="POST">
                         <input type="submit" value="Excluir" class="btn btn-danger">
-                    </form> -->
-                    <!-- <form action="/atualizar/{{ musica.id }}" method="GET">
+                    </form> -
+                    <form action="/atualizar/{{ musica.id }}" method="GET">
                         <input type="submit" value="Atualizar" class="btn btn-primary">
-                    </form> -->
-                    <!-- <form action="/curtir/{{ musica.id }}" method="GET">
+                    </form> 
+                    <form action="/curtir/{{ musica.id }}" method="GET">
                         <input type="submit" value="Curtir" class="btn btn-primary">
                     </form>
                 </td>
@@ -58,6 +58,6 @@
     {% else %}
     <p class="text-center">Nenhuma musica encontrada.</p>
     <a class="nav-link" href="/reset-database">Resetar Banco de Dados</a>
-    {% endif %} -->
+    {% endif %} 
 </body>
 </html>
