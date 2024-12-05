@@ -16,7 +16,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: ingressos
+      POSTGRES_DB: musicas
   
   frontend:
     container_name: frontend_container 

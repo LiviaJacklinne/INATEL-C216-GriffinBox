@@ -55,10 +55,10 @@ async def musica_existente(nome: str, cantor: str, conn: asyncpg.Connection):
 @app.post("/api/v1/musicas/", status_code=201)
 async def adicionar_musica(msc: MusicaBase):
     conn = await get_database()
-    if await musica_existente(msc.nome, msc.autor, conn):
+    if await musica_existente(msc.nome, msc.cantor, conn):
         raise HTTPException(status_code=400, detail="Musica já existe.")
     try:
-        query = "INSERT INTO musicas (nome, autor, album, duracao) VALUES ($1, $2, $3, $4)"
+        query = "INSERT INTO musicas (nome, cantor, album, duracao) VALUES ($1, $2, $3, $4)"
         async with conn.transaction():
             result = await conn.execute(query, msc.nome, msc.cantor, msc.album, msc.duracao)
             return {"message": "Musica adicionada com sucesso!"}

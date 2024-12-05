@@ -14,7 +14,7 @@
             <li class="navbar-li"><a class="nav-link" href="/cadastro">Adicionar Música</a></li>
             <li class="navbar-li"><a class="nav-link active" href="/playlist">Ver Músicas</a></li>
             <li class="navbar-li"><a class="nav-link" href="/curtidas">Musicas Curtidas</a></li>
-            <li class="navbar-li"><a class="nav-link" href="/reset-database">Reset DB/a></li>
+            <li class="navbar-li"><a class="nav-link" href="/reset-database">Reset DB</a></li>
         </div>
     </nav>
     {% if musicas %}
@@ -33,19 +33,25 @@
                 {% for musica in musicas %}
                 <tr>
                     <td>{{ musica.nome }}</td>
-                    <td>{{ musica.cantos }}</td>
+                    <td>{{ musica.cantor }}</td>
                     <td>{{ musica.album }}</td>
                     <td>{{ musica.duracao }}</td>
-                    <td class="d-flex">
-                        <form action="/excluir/{{ musica.id }}" method="POST">
-                            <input type="submit" value="Excluir" class="btn btn-danger">
-                        </form> -
-                        <form action="/atualizar/{{ musica.id }}" method="GET">
-                            <input type="submit" value="Atualizar" class="btn btn-primary">
-                        </form> 
-                        <form action="/curtir/{{ musica.id }}" method="GET">
-                            <input type="submit" value="Curtir" class="btn btn-primary">
-                        </form>
+                    <td class= "table">
+                        <li class="table-li">
+                            <form action="/excluir/{{ musica.id }}" method="POST">
+                                <input type="submit" value="Excluir" class="btn btn-danger">
+                            </form> 
+                        </li>
+                        <li class="table-li">
+                            <form action="/atualizar/{{ musica.id }}" method="GET">
+                                <input type="submit" value="Atualizar" class="btn btn-primary">
+                            </form>  
+                        </li>
+                        <li class="table-li">
+                            <form action="/curtir/{{ musica.id }}" method="GET">
+                                <input type="submit" value="Curtir" class="btn btn-primary">
+                            </form>
+                        </li>
                     </td>
                 </tr>
                 {% endfor %}
