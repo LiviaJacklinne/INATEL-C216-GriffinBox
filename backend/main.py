@@ -99,7 +99,7 @@ async def listar_musica_por_id(musica_id: int):
 async def curtir_musica(musica_id: int, atualizar_musica: CuritrMusica):
     conn = await get_database()
     try:
-        # Verificar se o livro existe
+        # Verificar se a musica existe
         query = "SELECT * FROM musicas WHERE id = $1"
         musicas = await conn.fetchrow(query, musica_id)
         if musicas is None:
@@ -138,9 +138,9 @@ async def excluir_musica(musica_id: int):
     finally:
         await conn.close()
 
-# 7. Resetar banco de dados de livros
+# 7. Resetar banco de dados de musicas
 @app.delete("/api/v1/musicas/")
-async def resetar_livros():
+async def resetar_musicas():
     init_sql = os.getenv("INIT_SQL", "db/init.sql")
     conn = await get_database()
     try:

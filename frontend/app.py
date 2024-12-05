@@ -14,12 +14,12 @@ def home():
 
 # Rota para exibir o formulário de cadastro
 @app.route('/cadastro', methods=['GET'])
-def inserir_livro_form():
+def inserir_musica_form():
     return render_template('cadastro.html')
 
 # Rota para enviar os dados do formulário de cadastro para a API
 @app.route('/adicionar', methods=['POST'])
-def adicionar_musica():
+def inserir_musica():
     nome = request.form['nome']
     cantor = request.form['cantor']
     album = request.form['album']
@@ -37,7 +37,7 @@ def adicionar_musica():
     response = requests.post(f'{API_BASE_URL}/api/v1/musicas/', json=payload)
     
     if response.status_code == 201:
-        return redirect(url_for('listar_musica'))
+        return redirect(url_for('listar_musicas'))
     else:
         return "Erro ao adicionar musica", 500
 
@@ -57,7 +57,7 @@ def excluir_musica(musica_id):
     response = requests.delete(f"{API_BASE_URL}/api/v1/musicas/{musica_id}")
     
     if response.status_code == 200  :
-        return redirect(url_for('listar_musica'))
+        return redirect(url_for('listar_musicas'))
     else:
         return "Erro ao excluir musica", 500
 
