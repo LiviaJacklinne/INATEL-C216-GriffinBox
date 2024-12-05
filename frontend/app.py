@@ -24,14 +24,12 @@ def inserir_musica():
     cantor = request.form['cantor']
     album = request.form['album']
     duracao = request.form['duracao']
-    gostei = request.form['gostei']
 
     payload = {
         'nome': nome,
         'cantor': cantor,
         'album' : album,
-        'duracao' : duracao,
-        'gostei' : gostei
+        'duracao' : duracao
     }
 
     response = requests.post(f'{API_BASE_URL}/api/v1/musicas/', json=payload)
@@ -39,7 +37,7 @@ def inserir_musica():
     if response.status_code == 201:
         return redirect(url_for('listar_musicas'))
     else:
-        return "Erro ao adicionar musica", 500
+        return "Erro ao inserir musica", 500
 
 # Rota para listar todas as musicas
 @app.route('/playlist', methods=['GET'])
@@ -50,6 +48,41 @@ def listar_musicas():
     except:
         musicas = []
     return render_template('playlist.html', musicas=musicas)
+
+# Rota para exibir o formulário de edição de musica
+@app.route('/atualizar/<int:musica_id>', methods=['GET'])
+def atualizar_musica_form(musica_id):
+    response = requests.get(f"{API_BASE_URL}/api/v1/musicas/")
+    #filtrando apenas o musica correspondente ao ID
+    musicas = [musica for musica in response.json() if musica['id'] == musica_id]
+    if len(musicas) == 0:
+        return "musica não encontrado", 404
+    musica = musicas[0]
+    return render_template('atualizar.html', musica=musica)
+
+# Rota para enviar os dados do formulário de edição de musica para a API
+@app.route('/atualizar/<int:musica_id>', methods=['POST'])
+def atualizar_musica(musica_id):
+    nome = request.form['nome']
+    cantor = request.form['cantor']
+    album = request.form['album']
+    duracao = request.form['duracao']
+
+    payload = {
+        'id': musica_id,
+        'nome': nome,
+        'cantor': cantor,
+        'album' : album,
+        'duracao' : duracao
+    }
+
+    response = requests.patch(f"{API_BASE_URL}/api/v1/musicas/{musica_id}", json=payload)
+    
+    if response.status_code == 200:
+        return redirect(url_for('listar_musicas'))
+    else:
+        return "Erro ao atualizar musica", 500
+
 
 # Rota para excluir uma musica
 @app.route('/excluir/<int:musica_id>', methods=['POST'])

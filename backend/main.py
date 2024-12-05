@@ -7,7 +7,7 @@ import os
 
 # Função para obter a conexão com o banco de dados PostgreSQL
 async def get_database():
-    DATABASE_URL = os.environ.get("PGURL", "postgres://postgres:postgres@db:5432/musica") 
+    DATABASE_URL = os.environ.get("PGURL", "postgres://postgres:postgres@db:5432/musicas") 
     return await asyncpg.connect(DATABASE_URL)
 
 # Inicializar a aplicação FastAPI
@@ -20,17 +20,18 @@ class Musica(BaseModel):
     cantor: str
     album: str
     duracao: str
-    gostei: bool
 
 class MusicaBase(BaseModel):
     nome: str
     cantor: str
     album: str
     duracao: str
-    gostei: bool
 
-class CuritrMusica(BaseModel):
-    gostei: Optional[bool] = None;
+class AtualizarMusica(BaseModel):
+    nome: Optional[str] = None
+    cantor: Optional[str] = None
+    album: Optional[str] = None
+    duracao: Optional[str] = None
 
 # Middleware para logging
 @app.middleware("http")
@@ -40,7 +41,6 @@ async def log_requests(request: Request, call_next):
     process_time = time.time() - start_time
     print(f"Path: {request.url.path}, Method: {request.method}, Process Time: {process_time:.4f}s")
     return response
-
 
 # Função para verificar se a musica ja existe
 async def musica_existente(nome: str, cantor: str, conn: asyncpg.Connection):
@@ -58,9 +58,9 @@ async def adicionar_musica(msc: MusicaBase):
     if await musica_existente(msc.nome, msc.autor, conn):
         raise HTTPException(status_code=400, detail="Musica já existe.")
     try:
-        query = "INSERT INTO musicas (nome, autor, album, duracao, gostei) VALUES ($1, $2, $3, $4, $5)"
+        query = "INSERT INTO musicas (nome, autor, album, duracao) VALUES ($1, $2, $3, $4)"
         async with conn.transaction():
-            result = await conn.execute(query, msc.nome, msc.cantor, msc.album, msc.duracao, msc.gostei)
+            result = await conn.execute(query, msc.nome, msc.cantor, msc.album, msc.duracao)
             return {"message": "Musica adicionada com sucesso!"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Falha ao adicionar musica: {str(e)}")
@@ -69,7 +69,7 @@ async def adicionar_musica(msc: MusicaBase):
 
 # 2. Listar todas as musicas
 @app.get("/api/v1/musicas/", response_model=List[Musica])
-async def listar_musica():
+async def listar_musicas():
     conn = await get_database()
     try:
         # Buscar todas as musicas no banco de dados
@@ -94,26 +94,31 @@ async def listar_musica_por_id(musica_id: int):
     finally:
         await conn.close()
 
-# 4. Adicionar a musica como "gostei"
 @app.patch("/api/v1/musicas/{musica_id}")
-async def curtir_musica(musica_id: int, atualizar_musica: CuritrMusica):
+async def atualizar_musica(musica_id: int, musica_atualizacao: AtualizarMusica):
     conn = await get_database()
     try:
-        # Verificar se a musica existe
+        # Verificar se o musica existe
         query = "SELECT * FROM musicas WHERE id = $1"
-        musicas = await conn.fetchrow(query, musica_id)
-        if musicas is None:
-            raise HTTPException(status_code=404, detail="Musica não encontrada!")
+        musica = await conn.fetchrow(query, musica_id)
+        if musica is None:
+            raise HTTPException(status_code=404, detail="Musica não encontrada.")
 
         # Atualizar apenas os campos fornecidos
         update_query = """
             UPDATE musicas
-            SET titulgostei  = COALESCE($1, gostei),
-            WHERE id = $2
+            SET nome = COALESCE($1, nome),
+                cantor = COALESCE($2, cantor),
+                album = COALESCE($3, album),
+                duracao = COALESCE($4, duracao)
+            WHERE id = $5
         """
         await conn.execute(
             update_query,
-            atualizar_musica.gostei,
+            musica_atualizacao.nome,
+            musica_atualizacao.cantor,
+            musica_atualizacao.album,
+            musica_atualizacao.duracao,
             musica_id
         )
         return {"message": "Musica atualizada com sucesso!"}
@@ -150,18 +155,5 @@ async def resetar_musicas():
         # Execute SQL commands
         await conn.execute(sql_commands)
         return {"message": "Banco de dados limpo com sucesso!"}
-    finally:
-        await conn.close()
-
-# 3. Listar as musicas marcadas como gostei
-@app.get("/api/v1/gostei/", response_model=List[Musica])
-async def listar_musica_gostei():
-    conn = await get_database()
-    try:
-        # Buscar todas as musicas no banco de dados
-        query = "SELECT * FROM musicas WHERE gostei = TRUE"
-        rows = await conn.fetch(query)
-        musica = [dict(row) for row in rows]
-        return musica
     finally:
         await conn.close()
