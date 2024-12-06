@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/playlist.css') }}">
+</head>
+<body>
+    <nav class="nav">
+        <div class="navbar">
+            <li class="navbar-li"><a class="nav-link" href="/"><span>GriffinBox</span></a></li>
+            <li class="navbar-li"><a class="nav-link" aria-current="page" href="/">Home</a></li>
+            <li class="navbar-li"><a class="nav-link" href="/cadastro">Adicionar Música</a></li>
+            <li class="navbar-li"><a class="nav-link active" href="/playlist">Ver Músicas</a></li>
+            <!-- <li class="navbar-li"><a class="nav-link" href="/curtidas">Musicas Curtidas</a></li> -->
+            <li class="navbar-li"><a class="nav-link" href="/reset-database">Reset DB</a></li>
+        </div>
+    </nav>
+    {% if musicas %}
+    <div class="container">
+        <table class="container-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Cantor</th>
+                    <th>Album</th>
+                    <th>Duração</th> 
+                    <th>Gostei</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for musica in musicas %}
+                <tr>
+                    <td>{{ musica.nome }}</td>
+                    <td>{{ musica.cantor }}</td>
+                    <td>{{ musica.album }}</td>
+                    <td>{{ musica.duracao }}</td>
+                    <td class= "table">
+                        <li class="table-li">
+                            <form action="/excluir/{{ musica.id }}" method="POST">
+                                <input type="submit" value="Excluir" class="btn btn-danger">
+                            </form> 
+                        </li>
+                        <li class="table-li">
+                            <form action="/atualizar/{{ musica.id }}" method="GET">
+                                <input type="submit" value="Atualizar" class="btn btn-primary">
+                            </form>  
+                        </li>
+                        <!-- <li class="table-li">
+                            <form action="/curtir/{{ musica.id }}" method="GET">
+                                <input type="submit" value="Curtir" class="btn btn-primary">
+                            </form>
+                        </li> -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-center">Nenhuma musica encontrada.</p>
+        <a class="nav-link" href="/reset-database">Resetar Banco de Dados</a>
+        {% endif %} 
+    </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Música</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+</head>
+<body>
+    <nav class="nav">
+        <div class="navbar">
+            <li class="navbar-li"><a class="nav-link" href="/"><span>GriffinBox</span></a></li>
+            <li class="navbar-li"><a class="nav-link" aria-current="page" href="/">Home</a></li>
+            <li class="navbar-li"><a class="nav-link active" href="/cadastro">Adicionar Música</a></li>
+            <li class="navbar-li"><a class="nav-link" href="/playlist">Ver Músicas</a></li>
+            <!-- <li class="navbar-li"><a class="nav-link" href="/curtidas">Musicas Curtidas</a></li>  -->
+            <li class="navbar-li"><a class="nav-link" href="/reset-database">Reset DB</a></li>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="container-form">
+            <form action="/adicionar" method="POST">
+                <li class="form-li">
+                    <label for="nome" class="form-label">Nome da Música:</label><br>
+                    <input type="text" id="nome" name="nome" class="form-control" placeholder="Hello"><br>
+                </li>
+                <li class="form-li">
+                    <label for="cantor" class="form-label">Nome do Cantor(a):</label><br>
+                    <input type="text" id="cantor" name="cantor" class="form-control" placeholder="Adele"><br>
+                </li>
+                <li class="form-li">
+                    <label for="album" class="form-label">Album:</label><br>
+                    <input type="text" id="album" name="album" class="form-control" placeholder="25"><br><br>
+                </li>
+                    
+                <li class="form-li">
+                    <label for="duracao" class="form-label">Duração:</label><br>
+                    <input type="text" id="duracao" name="duracao" class="form-control" placeholder="4:55"><br><br>
+                </li>
+                <li class="form-li"><input type="submit" value="Adicionar" class="btn btn-primary"></li>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

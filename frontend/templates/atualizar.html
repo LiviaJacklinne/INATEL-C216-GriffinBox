@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualizar Musica</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/atualizar.css') }}">
+</head>
+<body>
+    <nav class="nav">
+        <div class="navbar">
+            <li class="navbar-li"><a class="nav-link" href="/"><span>GriffinBox</span></a></li>
+            <li class="navbar-li"><a class="nav-link" aria-current="page" href="/">Home</a></li>
+            <li class="navbar-li"><a class="nav-link" href="/cadastro">Adicionar Música</a></li>
+            <li class="navbar-li"><a class="nav-link" href="/playlist">Ver Músicas</a></li>
+            <!-- <li class="navbar-li"><a class="nav-link" href="/curtidas">Musicas Curtidas</a></li> -->
+            <li class="navbar-li"><a class="nav-link" href="/reset-database">Reset DB</a></li>
+        </div>
+    </nav>
+    <div class="container">
+        <form action="/atualizar/{{ musica.id }}" method="POST">
+            <li class="form-li">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" id="nome" name="nome" value="{{ musica.nome }}" class="form-control">
+            </li>
+            <li class="form-li">
+                <label for="cantor" class="form-label">Cantor:</label>
+                <input type="text" id="cantor" name="cantor" value="{{ musica.cantor }}" class="form-control">
+            </li>
+            <li class="form-li">
+                <label for="album" class="form-label">Album:</label>
+                <input type="text" id="album" name="album" value="{{ musica.album }}" class="form-control">
+            </li>
+
+            <li class="form-li">
+                <label for="duracao" class="form-label">Duração:</label>
+                <input type="text" id="duracao" name="duracao" value="{{ musica.duracao }}" class="form-control">
+            </li>
+            <li class="form-li">
+                <input type="submit" value="Atualizar" class="btn btn-primary">
+            </li>
+        </form>
+    </div>
+
+</body>
+</html>
