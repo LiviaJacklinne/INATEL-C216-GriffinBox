@@ -13,7 +13,7 @@
             <li class="navbar-li"><a class="nav-link" aria-current="page" href="/">Home</a></li>
             <li class="navbar-li"><a class="nav-link" href="/cadastro">Adicionar Música</a></li>
             <li class="navbar-li"><a class="nav-link active" href="/playlist">Ver Músicas</a></li>
-            <li class="navbar-li"><a class="nav-link" href="/curtidas">Musicas Curtidas</a></li>
+            <!-- <li class="navbar-li"><a class="nav-link" href="/curtidas">Musicas Curtidas</a></li> -->
             <li class="navbar-li"><a class="nav-link" href="/reset-database">Reset DB</a></li>
         </div>
     </nav>
@@ -47,11 +47,11 @@
                                 <input type="submit" value="Atualizar" class="btn btn-primary">
                             </form>  
                         </li>
-                        <li class="table-li">
+                        <!-- <li class="table-li">
                             <form action="/curtir/{{ musica.id }}" method="GET">
                                 <input type="submit" value="Curtir" class="btn btn-primary">
                             </form>
-                        </li>
+                        </li> -->
                     </td>
                 </tr>
                 {% endfor %}
