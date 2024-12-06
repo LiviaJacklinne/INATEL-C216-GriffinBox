@@ -18,23 +18,23 @@
         </div>
     </nav>
     <div class="container">
-        <form action="/atualizar/{{ livro.id }}" method="POST">
+        <form action="/atualizar/{{ musica.id }}" method="POST">
             <li class="form-li">
-                <label for="nome" class="form-label">Nome:</label><br>
-                <input type="text" id="nome" name="nome" value="{{ livro.nome }}" class="form-control">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" id="nome" name="nome" value="{{ musica.nome }}" class="form-control">
             </li>
             <li class="form-li">
-                <label for="cantor" class="form-label">Cantor:</label><br>
-                <input type="text" id="cantor" name="cantor" value="{{ livro.cantor }}" class="form-control">
+                <label for="cantor" class="form-label">Cantor:</label>
+                <input type="text" id="cantor" name="cantor" value="{{ musica.cantor }}" class="form-control">
             </li>
             <li class="form-li">
-                <label for="album" class="form-label">Album:</label><br>
-                <input type="text" id="album" name="album" value="{{ livro.album }}" class="form-control">
+                <label for="album" class="form-label">Album:</label>
+                <input type="text" id="album" name="album" value="{{ musica.album }}" class="form-control">
             </li>
 
             <li class="form-li">
-                <label for="duracao" class="form-label">Duração:</label><br>
-                <input type="text" id="duracao" name="duracao" value="{{ livro.duracao }}" class="form-control">
+                <label for="duracao" class="form-label">Duração:</label>
+                <input type="text" id="duracao" name="duracao" value="{{ musica.duracao }}" class="form-control">
             </li>
             <li class="form-li">
                 <input type="submit" value="Atualizar" class="btn btn-primary">
