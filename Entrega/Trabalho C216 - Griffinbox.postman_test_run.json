@@ -1,0 +1,176 @@
+{
+	"id": "72b158c6-13f1-45d4-bd21-69bc8c2c0c5f",
+	"name": "Trabalho C216 - Griffinbox",
+	"timestamp": "2024-12-06T02:56:19.759Z",
+	"collection_id": "38482330-97bcda42-c9d0-4100-b71a-3a9351b5a721",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 9,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-12-06T02:56:17.651Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "70f4eba3-685d-4fa0-bb3f-48dcdd18326e",
+			"name": "Listar musicas",
+			"url": "http://localhost:8000/api/v1/musicas",
+			"time": 83,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should be a list": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should be a list": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				83
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should be a list": true
+				}
+			]
+		},
+		{
+			"id": "24a2724a-198e-4dca-b757-c8e9c35d8d93",
+			"name": "Adicionar musicas",
+			"url": "http://localhost:8000/api/v1/musicas",
+			"time": 240,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Response should contain confirmation message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should contain confirmation message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				240
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Response should contain confirmation message": true
+				}
+			]
+		},
+		{
+			"id": "98dd3a51-4ab5-4f6e-876a-637fbf29a74c",
+			"name": "Atualizar musicas",
+			"url": "http://localhost:8000/api/v1/musicas/4",
+			"time": 181,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm update": true,
+				"Os atributos da musica foram atualizados": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm update": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Os atributos da musica foram atualizados": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				181
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm update": true,
+					"Os atributos da musica foram atualizados": true
+				}
+			]
+		},
+		{
+			"id": "cc6bfb8f-f3ad-439f-9df3-2d9a4d07152c",
+			"name": "Deletar musica",
+			"url": "http://localhost:8000/api/v1/musicas/4",
+			"time": 184,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm deletion": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm deletion": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				184
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm deletion": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 688,
+	"collection": {
+		"requests": [
+			{
+				"id": "70f4eba3-685d-4fa0-bb3f-48dcdd18326e",
+				"method": "GET"
+			},
+			{
+				"id": "24a2724a-198e-4dca-b757-c8e9c35d8d93",
+				"method": "POST"
+			},
+			{
+				"id": "98dd3a51-4ab5-4f6e-876a-637fbf29a74c",
+				"method": "PATCH"
+			},
+			{
+				"id": "cc6bfb8f-f3ad-439f-9df3-2d9a4d07152c",
+				"method": "DELETE"
+			}
+		]
+	}
+}

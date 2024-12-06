@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "97bcda42-c9d0-4100-b71a-3a9351b5a721",
+		"name": "Trabalho C216 - Griffinbox",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38482330"
+	},
+	"item": [
+		{
+			"name": "Listar musicas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response should be a list\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('array');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{url}}/musicas",
+					"protocol": "http",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"musicas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Adicionar musicas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Response should contain confirmation message\", function () {\r",
+							"    pm.expect(pm.response.json().message).to.eql('Musica adicionada com sucesso!');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Barbie\",\r\n  \"cantor\": \"Mc Tuto\",\r\n  \"album\": \"barbie\",\r\n  \"duracao\": \"3:15\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{url}}/musicas",
+					"protocol": "http",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"musicas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar musicas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response should confirm update\", function () {\r",
+							"    pm.expect(pm.response.json().message).to.eql('Musica atualizada com sucesso!');\r",
+							"});\r",
+							"\r",
+							"pm.sendRequest(\"http://127.0.0.1:8000/api/v1/musicas/4\", function (err, res) {\r",
+							"    pm.test(\"Os atributos da musica foram atualizados\", function () {\r",
+							"        let msc = res.json();\r",
+							"        pm.expect(msc.nome).to.eql(\"Bagagem\");\r",
+							"        pm.expect(msc.cantor).to.eql(\"Apollo\");\r",
+							"        pm.expect(msc.album).to.eql(\"Single\");\r",
+							"        pm.expect(msc.duracao).to.eql(\"2:05\"); // Verifica se a quantidade foi alterada\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Bagagem\",\r\n  \"cantor\": \"Apollo\",\r\n  \"album\": \"Single\",\r\n  \"duracao\": \"2:05\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{url}}/musicas/4",
+					"protocol": "http",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"musicas",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar musica",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response should confirm deletion\", function () {\r",
+							"    pm.expect(pm.response.json().message).to.eql('Musica excluida com sucesso!');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{url}}/musicas/4",
+					"protocol": "http",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"musicas",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
