@@ -5,7 +5,7 @@ O sistema proposto é um CRUD para gerênciamento de musicas
 ### Alunas
 > Ana Luiza Martins - 1701 - ana.al@gec.inatel.br <br>
 > Livia Jacklinne Ramos Moreira - 1731 - livia.jacklinne@inatel.br
-> > <br>
+> <br>
 
 <hr>
 
