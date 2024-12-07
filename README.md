@@ -2,6 +2,13 @@
 
 O sistema proposto é um CRUD para gerênciamento de musicas
 
+### Alunas
+> Ana Luiza Martins - 1701 - ana.al@gec.inatel.br <br>
+> Livia Jacklinne Ramos Moreira - 1731 - livia.jacklinne@inatel.br
+> > <br>
+
+<hr>
+
 ## Tecnologias
 - Python
 - Flask
@@ -13,12 +20,11 @@ O sistema proposto é um CRUD para gerênciamento de musicas
 > - API Rest
 > - Testes de API
 > - Container (docker-compose)
-> - Criptografia
+>   <br>
 
 ## Execução
-
-
-> ***Observação*** <br>
-> 1. Para rodar o projeto local, instale as dependências executando `pip install -r requirements.txt` na raiz do projeto
-> 2. execute `flask run` na raiz do projeto
+Na raiz do projeto executar 
+```
+docker compose up --build
+```
 
